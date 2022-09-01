@@ -14,17 +14,23 @@ export class UsersService {
             email: "a@gmail.com",
             password: 'aaaa1111',
             balance: '1',
+            image: null
         },
         {
             id: 'b',
             email: "b@gmail.com",
             password: 'bbbb2222',
             balance: '2',
+            image: null
         },
     ];
 
+    insertImg(email: string, destination: string) {
+        let exist = this.findOne(email)
+        exist.image = destination;
+    }
     findOne(email: string): UserDto {
-        console.log(email)
+        console.log(this.users);
         let exist = this.users.find(user => user.email === email);
         if (!exist) throw new NotFoundException('user not found');
         return exist
