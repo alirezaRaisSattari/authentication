@@ -4,10 +4,11 @@ import { LocalAuthGuard } from './auth/local-auth.guard';
 import { AuthService } from './auth/auth.service';
 import { UserDto } from './users/dto/user.dto';
 import { CreateUserDto } from './users/dto/register-user.dto';
+import { UsersService } from './users/users.service';
 
 @Controller()
 export class AppController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private usersService: UsersService) { }
 
   @Post('/login')
   async login(@Body() user) {
@@ -22,7 +23,7 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
-    return req.user;
+    return this.usersService.findOne(req.user.email);
   }
 
 }

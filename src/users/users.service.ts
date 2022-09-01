@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 
 // This should be a real class/interface representing a user entity
@@ -24,7 +24,10 @@ export class UsersService {
     ];
 
     findOne(email: string): UserDto {
-        return this.users.find(user => user.email === email);
+        console.log(email)
+        let exist = this.users.find(user => user.email === email);
+        if (!exist) throw new NotFoundException('user not found');
+        return exist
     }
     createUser(user: UserDto): void {
         let exist = this.findOne(user.email)
